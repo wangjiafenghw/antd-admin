@@ -4,6 +4,9 @@ import pathToRegexp from 'path-to-regexp'
 import { message } from 'antd'
 import { CANCEL_REQUEST_MESSAGE } from 'utils/constant'
 import qs from 'qs'
+// todo 携带cookies跨域
+axios.defaults.withCredentials = true
+axios.defaults.crossDomain = true
 
 const { CancelToken } = axios
 window.cancelRequest = new Map()

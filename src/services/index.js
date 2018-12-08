@@ -30,7 +30,7 @@ for (const key in api) {
 APIFunction.queryWeather = params => {
   params.key = 'i7sau1babuzwhycn'
   return request({
-    url: `${apiPrefix}/weather/now.json`,
+    url: `/api/vi/weather/now.json`,
     data: params,
   })
 }

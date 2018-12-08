@@ -15,4 +15,6 @@ export default {
   queryPostList: '/posts',
 
   queryDashboard: '/dashboard',
+
+  uploadCommit: 'POST /cloud/uploadCommit',
 }

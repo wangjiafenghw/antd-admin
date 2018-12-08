@@ -27,7 +27,7 @@ const bodyStyle = {
 
 @connect(({ app, dashboard, loading }) => ({
   avatar: app.user.avatar,
-  username: app.user.username,
+  nickname: app.user.nickname,
   dashboard,
   loading,
 }))

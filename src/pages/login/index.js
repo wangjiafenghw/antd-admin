@@ -28,7 +28,6 @@ class Login extends PureComponent {
   render() {
     const { loading, form, i18n } = this.props
     const { getFieldDecorator } = form
-
     let footerLinks = [
       {
         key: 'github',
