@@ -17,4 +17,7 @@ export default {
   queryDashboard: '/dashboard',
 
   uploadCommit: 'POST /cloud/uploadCommit',
+  removeUploadFile: '/cloud/removeUploadFile',
+  
+  getFilesList: '/cloud/getFilesList',
 }

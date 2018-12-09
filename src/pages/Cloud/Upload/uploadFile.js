@@ -1,19 +1,30 @@
 import React, { PureComponent } from 'react'
 import { Upload, Icon, message } from 'antd';
 import { upload as upload_option } from '../../../utils/option'
-
+import { connect } from 'dva'
+import { withI18n } from '@lingui/react'
 
 const Dragger = Upload.Dragger;
 
-class UploadFile extends PureComponent{
+@withI18n()
+@connect(({ app }) => ({
+    _id: app.user._id,
+}))
+
+export default class UploadFile extends PureComponent{
     constructor(props){
         super(props)
-
     }
 
     handleFileListChange = (info) => {
         this.props.onChangeFileList(info.fileList)
     }
+    handleRemoveUploadFile = (file, callback) => {
+        console.log(file)
+        const { dispatch, _id } = this.props
+        dispatch({ type: 'upload/removeUploadFile', payload: {filePath: file.response.saveTo.url, user_id: _id}, callback })
+    }
+
     render(){
         
         const uploadOption = {
@@ -30,6 +41,15 @@ class UploadFile extends PureComponent{
             } else if (status === 'error') {
               message.error(`${info.file.name} file upload failed.`);
             }
+          },
+          onRemove: (file) => {
+              this.handleRemoveUploadFile(file, (data) => {
+                if (data.success) {
+                  message.success(`${file.name} file remove successfully.`);
+                } else {
+                  message.error(`${file.name} file remove failed.`);
+                }
+              });
           }
         };
         return(
@@ -43,5 +63,3 @@ class UploadFile extends PureComponent{
         )
     }
 }
-
-export default UploadFile;

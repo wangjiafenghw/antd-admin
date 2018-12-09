@@ -1,5 +1,6 @@
 
-import { uploadCommit } from 'api'
+import { uploadCommit, removeUploadFile } from 'api'
+import { callbackify } from 'util';
 
 export default {
   namespace: 'upload',
@@ -9,12 +10,15 @@ export default {
   effects: {
     *uploadCommit({ payload }, { put, call, select }) {
       const data = yield call(uploadCommit, payload)
-      const { locationQuery } = yield select(_ => _.app)
       if (data.success) {
-        const { from } = locationQuery
+        console.log("data", data)
       } else {
         throw data
       }
     },
+    *removeUploadFile({ payload, callback }, { call, select }) {
+      const data = yield call(removeUploadFile, payload)
+      callback(data)
+    }
   },
 }

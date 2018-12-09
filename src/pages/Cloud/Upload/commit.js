@@ -21,6 +21,7 @@ export default class Commit extends PureComponent{
         super(props)
     }
     handleOk = () => {
+        console.log(this.props)
         const { dispatch, form } = this.props
         const { validateFieldsAndScroll } = form
         validateFieldsAndScroll((errors, values) => {
