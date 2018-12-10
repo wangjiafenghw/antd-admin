@@ -1,15 +1,26 @@
 
 import { getFilesList } from 'api'
-import { callbackify } from 'util';
+import modelExtend from 'dva-model-extend'
+import { model } from 'utils/model'
 
-export default {
+export default modelExtend(model, {
   namespace: 'list',
-
-  state: {},
+  state: {
+    array: []
+  },
   effects: {
     *getFilesList({ payload }, { call, put }) {
         const data = yield call(getFilesList, payload)
-        yield put({ type: getFilesList, payload: data})
+        const success = data.success;       
+        if(success){
+          yield put({
+            type: 'updateState',
+            payload: {
+              array: data.data
+            }
+          })
+        }
     }
   },
-}
+
+})

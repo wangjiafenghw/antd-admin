@@ -46,13 +46,12 @@ class Dashboard extends PureComponent {
       cpu,
       user,
     } = dashboard
-
+    console.log(this.props)
     const numberCards = numbers.map((item, key) => (
       <Col key={key} lg={6} md={12}>
         <NumberCard {...item} />
       </Col>
     ))
-
     return (
       <Page
         // loading={loading.models.dashboard && sales.length === 0}
