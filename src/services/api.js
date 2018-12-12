@@ -18,6 +18,7 @@ export default {
 
   uploadCommit: 'POST /cloud/uploadCommit',
   removeUploadFile: '/cloud/removeUploadFile',
+  removeUploadFileById: '/cloud/removeUploadFileById',
   
   getFilesList: '/cloud/getFilesList',
 }

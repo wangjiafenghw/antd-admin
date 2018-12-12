@@ -16,7 +16,10 @@ export default class ListApp extends PureComponent {
         const { dispatch, _id } = this.props;
         dispatch({ type: 'list/getFilesList', payload: {id: _id, }} )
     }
-
+    handleDelete = (id, index) => { 
+        const { dispatch, list } = this.props;
+        dispatch({ type: 'list/deleteFileById', payload: {id, list, index}})
+    }
     componentDidMount(){
         this.handler_getList()   
     }
@@ -24,7 +27,7 @@ export default class ListApp extends PureComponent {
         const { list } = this.props
         return (
             <Page inner>
-                <List list={list.array} />
+                <List list={list.array} handleDelete={this.handleDelete} />
             </Page>
         )
     }
