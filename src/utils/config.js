@@ -3,6 +3,7 @@ module.exports = {
   copyright: '综合管理后台  © 2018 wangjiafeng',
   logoPath: '/logo.svg',
   apiPrefix: 'http://localhost:1234/api',
+  serverUrl: 'http://localhost:1234',
   fixedHeader: true, // sticky primary layout header
 
   /* Layout configuration, specify which layout to use for route. */
