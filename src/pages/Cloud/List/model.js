@@ -10,6 +10,7 @@ export default modelExtend(model, {
   },
   effects: {
     *getFilesList({ payload }, { call, put }) {
+        console.log(payload)
         const data = yield call(getFilesList, payload)
         const success = data.success;       
         if(success){
@@ -23,18 +24,6 @@ export default modelExtend(model, {
     },
     *deleteFileById({ payload }, { call, put }) {
       const data = yield call(removeUploadFileById, {id: payload.id})
-      const success = data.success;
-      if(success){
-        let array = payload.list.array;
-        array.splice(payload.index,1)
-        yield put({
-          type: 'updateState',
-          payload: {
-            array   //?? 父组件不刷新
-          }
-        })
-        console.log(payload)
-      }
     }
   },
 
