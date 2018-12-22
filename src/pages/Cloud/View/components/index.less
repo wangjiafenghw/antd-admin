@@ -1,0 +1,31 @@
+@import "./style/themes/default";
+@import "./style/mixins/index";
+.wrap{
+    position: relative;
+    display: inline-block;
+    width:100px;
+    height: 100px;
+    margin: 10px;
+    color: #333;
+    text-align: center;
+    vertical-align: top;
+    .cover{
+        max-width: 100%;
+        height: 50%;
+        margin-bottom: 7px;
+    }
+    p{
+        word-wrap: break-word;
+        height: 50%;
+    }
+}
+.locked{
+    position: absolute;
+    bottom: 50%;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    background-color: #ddd;
+    background-image: url("http://localhost:1234/cloud/common/ead856158f002.png");
+    background-size: 100% 100%;
+}

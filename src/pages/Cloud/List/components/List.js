@@ -1,29 +1,45 @@
 import React, { PureComponent } from 'react'
 
-import { Table, Divider, Tag, Popover, message } from 'antd'
+import { Table, Divider, Tag, Popover, message, Spin } from 'antd'
 import { withI18n, Trans } from '@lingui/react'
 import { connect } from 'dva'
 import { serverUrl, apiPrefix } from '../../../../utils/config'
 import copy from 'copy-to-clipboard';
 import { Timer as LocalTimer} from "../../../../components/LocalTrans/LocalTrans"
+import Drawer from "./Drawer"
 
+const filters = {
+    permission: {
+        "0": "common",
+        "1": "other"
+    }
+}
 
 @withI18n()
-@connect(({ app, list }) => ({
+@connect(({ app, loading, list }) => ({
     app: app,
+    loading: loading,
     _id: app.user._id,
-    list: list.array
+    list: list.array,
+    pagination: {
+        pageSize: 10,
+        current: list.current || 1,
+        total: list.count || 0
+    },
 }))
 export default class List extends PureComponent{
     constructor(){
         super()
         this.state = {
-            pagination: {
-                pageSize: 5,
-                current: 1
-            }
+            editor_open: false
         }
     }
+    onClose = () => {
+        this.setState({
+            editor_open: false,
+            editor_record: {}
+        });
+    };
     handler_getList(param){
         const { dispatch } = this.props;
         dispatch({ type: 'list/getFilesList', payload: {...param}} )
@@ -42,8 +58,13 @@ export default class List extends PureComponent{
         const path = `${serverUrl}${record.url}`
         window.open(path);
     }
+    handleClickEditor = (record, e) => {
+        this.setState({ editor_open: true })
+        this.setState({ editor_record: record })
+    }
     handleClickCopyLink = (record, e) => {
         e.preventDefault();
+        console.log(record)
         copy(`${serverUrl}${record.url}`)
     }
     handleClickDownload = (record, e) => {
@@ -60,27 +81,26 @@ export default class List extends PureComponent{
     }
     componentDidMount(){
         const { _id } = this.props;
-        this.handler_getList({id: _id, ...this.state.pagination})  //默认获取登陆用户的文件列表
+        this.handler_getList({id: _id, ...this.props.pagination})  //默认获取登陆用户的文件列表
     }
     
     render(){
-        const { list, i18n } = this.props;
-        const { pagination } = this.state;
+        const { list, i18n, pagination, loading } = this.props;
         const columns = [{
             title: i18n.t`FileName`,
             dataIndex: 'fileName',
             key: 'fileName',
-            render: text => <a href="javascript:;">{text}</a>,
+            render: (text, record) => <a onClick={this.handlePreview.bind(this, record)}><Trans>{text}</Trans></a>,
         }, {
             title: i18n.t`Permission`,
-            dataIndex: 'permission',
-            key: 'permission',
+            dataIndex: 'permission_code',
+            key: 'permission_code',
             filters: [
-                { text: 'Common', value: 'common' },
-                { text: 'Others', value: 'others' },
+                { text: 'Common', value: '0' },
+                { text: 'Others', value: '1' },
             ],
             width: '10%',
-            render: text => <Tag color="#2db7f5">{i18n.t`${text}`}</Tag>
+            render: (text, record) => <Tag color={record.permission_code=="0"?"#2db7f5":"#f50"}>{filters.permission[i18n.t`${text}`]}</Tag>
         },{
             title: i18n.t`Owner`,
             dataIndex: 'owner',
@@ -100,10 +120,10 @@ export default class List extends PureComponent{
             key: 'action',
             render: (text, record, index) => (
                 <span>
-                <a onClick={this.handlePreview.bind(this, record)}><Trans>Preview</Trans></a>
+                <a onClick={this.handleClickEditor.bind(this, record)} ><Trans>Editor</Trans></a>
                 <Divider type="vertical" />
                 <Popover placement="topLeft" content="copied!" trigger="click">
-                    <a onClick={this.handleClickCopyLink.bind(this, record)} >
+                    <a disabled = {record.permission_code!=="0"} onClick={this.handleClickCopyLink.bind(this, record)} >
                         <Trans>CopyLink</Trans>
                     </a>
                 </Popover>
@@ -116,7 +136,10 @@ export default class List extends PureComponent{
         }]
         
         return(
-            <Table rowKey={record=>record._id} pagination={ pagination } dataSource={list} columns={columns} onChange={this.onChange} />
+            <Spin spinning={loading.effects['list/getFilesList']}>
+                <Table rowKey={record=>record._id} pagination={ pagination } dataSource={list} columns={columns} onChange={this.onChange} />
+                <Drawer visible = { this.state.editor_open } onClose = { this.onClose } record = { this.state.editor_record }/>
+            </Spin>
         )
     }
 }

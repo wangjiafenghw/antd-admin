@@ -1,5 +1,5 @@
 
-import { uploadCommit, removeUploadFile } from 'api'
+import { editorFile, removeUploadFile } from 'api'
 import { callbackify } from 'util';
 
 export default {
@@ -8,8 +8,9 @@ export default {
   state: {},
 
   effects: {
-    *uploadCommit({ payload }, { put, call, select }) {
-      const data = yield call(uploadCommit, payload)
+    *editorFile({ payload }, { put, call, select }) {
+      console.log(payload)
+      const data = yield call(editorFile, payload)
       if (data.success) {
         console.log("data", data)
       } else {

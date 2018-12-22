@@ -3,9 +3,7 @@ import { Upload, Icon, message, Form, Input, Button, Row, Col, Avatar, Radio } f
 const { TextArea } = Input;
 import { connect } from 'dva'
 import { Page } from 'components';
-import UploadFile from './uploadFile'
-import Commit from './commit'
-
+import { Commit, UploadFile } from '../components/index'
 import styles from './index.less'
 
 const FormItem = Form.Item;
@@ -32,9 +30,11 @@ export default class Uploads extends PureComponent {
 
   render(){
       const formData = this.state.formData;
+      console.log(styles)
       return(
-        <Page inner className={styles.upload}>
+        <Page inner>
             <UploadFile onChangeFileList = {this.handleFileListChange} />
+            <br />
             <Commit formData = { formData } />
         </Page>
       )

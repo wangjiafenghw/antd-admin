@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import { Upload, Icon, message } from 'antd';
-import { upload as upload_option } from '../../../utils/option'
 import { connect } from 'dva'
 import { withI18n } from '@lingui/react'
 
@@ -26,7 +25,12 @@ export default class UploadFile extends PureComponent{
     }
 
     render(){
-        
+        const upload_option = {
+            name: 'file',
+            multiple: true,
+            withCredentials: true,
+            action: 'http://localhost:1234/api/cloud/upload',
+        }
         const uploadOption = {
           ...upload_option,
           onChange: (info) => {

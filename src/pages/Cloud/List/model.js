@@ -1,5 +1,5 @@
 
-import { getFilesList, removeUploadFileById } from 'api'
+import { getFilesList, removeUploadFileById, editorFile } from 'api'
 import modelExtend from 'dva-model-extend'
 import { model } from 'utils/model'
 
@@ -10,17 +10,23 @@ export default modelExtend(model, {
   },
   effects: {
     *getFilesList({ payload }, { call, put }) {
-        console.log(payload)
-        const data = yield call(getFilesList, payload)
-        const success = data.success;       
-        if(success){
-          yield put({
-            type: 'updateState',
-            payload: {
-              array: data.data
-            }
-          })
-        }
+      const data = yield call(getFilesList, payload)
+      const success = data.success;       
+      if(success){
+        yield put({
+          type: 'updateState',
+          payload: {
+            ...payload,
+            array: data.results,
+            count: data.count
+          }
+        })
+      }
+    },
+    *editorFile({ payload }, { call, put }) {
+      
+      const data = yield call(editorFile, payload)
+      const success = data.success;
     },
     *deleteFileById({ payload }, { call, put }) {
       const data = yield call(removeUploadFileById, {id: payload.id})
