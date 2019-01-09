@@ -5,7 +5,7 @@ import { withI18n, Trans } from '@lingui/react'
 import { connect } from 'dva'
 import { serverUrl, apiPrefix } from '../../../../utils/config'
 import copy from 'copy-to-clipboard';
-import { Timer as LocalTimer} from "../../../../components/LocalTrans/LocalTrans"
+import { Timer as LocalTimer } from "../../../../components/LocalTrans/LocalTrans"
 import Drawer from "./Drawer"
 
 const filters = {

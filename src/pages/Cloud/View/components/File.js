@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { withI18n } from '@lingui/react'
 import { connect } from 'dva'
+import { Tooltip } from 'antd';
 
 import styles from './index.less'
 
@@ -8,22 +9,26 @@ import styles from './index.less'
 @connect()
 export default class App extends PureComponent{
     render(){
-        const { fileName, url, visit } = this.props.data;
+        const { name, url, visit } = this.props.data;
         let html;
         if(visit){
             html = 
             <a className={styles.wrap} href={url}>
                 <img className = {styles.cover} alt="example" src={ url } />
-                <p>{ fileName }</p>
+                <p>{ name }</p>
             </a>
         }else{
             html = 
             <a className={styles.wrap} href={url}>
                 <img className = {styles.cover} alt="example" src={ url } />
                 <div className={styles.locked} ></div>
-                <p>{ fileName }</p>
+                <p>{ name }</p>
             </a>
         }
-        return html
+        return (
+            <Tooltip title="demo">
+                {html}
+            </Tooltip>
+        )
     }
 }

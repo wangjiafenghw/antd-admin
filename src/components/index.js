@@ -5,5 +5,6 @@ import Loader from './Loader'
 import ScrollBar from './ScrollBar'
 import * as MyLayout from './Layout/index.js'
 import Page from './Page'
+import AsyncLoader from './AsyncLoader'
 
-export { MyLayout, Editor, FilterItem, DropOption, Loader, Page, ScrollBar }
+export { MyLayout, Editor, FilterItem, DropOption, Loader, Page, ScrollBar, AsyncLoader }
